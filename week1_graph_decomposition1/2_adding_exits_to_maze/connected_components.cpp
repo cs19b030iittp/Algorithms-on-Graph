@@ -4,9 +4,25 @@
 using std::vector;
 using std::pair;
 
+void explore(vector<vector<int>> &adj, vector<bool> &visited, int s){
+  visited[s] = true;
+  for(int i = 0; i < adj[s].size(); i++){
+    if(visited[adj[s][i]] == false){
+      explore(adj, visited, adj[s][i]);
+    }
+  }
+}
+
 int number_of_components(vector<vector<int> > &adj) {
   int res = 0;
   //write your code here
+  vector<bool> visited(adj.size(), false);
+  for(int i = 0; i < adj.size(); i++){      // checking rows
+    if(visited[i] == false){
+      explore(adj, visited, i);
+      res++;
+    }
+  }
   return res;
 }
 
