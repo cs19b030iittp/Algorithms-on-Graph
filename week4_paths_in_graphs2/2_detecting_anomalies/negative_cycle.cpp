@@ -1,10 +1,44 @@
 #include <iostream>
 #include <vector>
+#include <limits>
 
 using std::vector;
 
+int bellmanFord(vector<vector<int>> &adj, vector<vector<int>> &cost, vector<bool> &visited, int s){
+  vector<long long> dist(adj.size(), std::numeric_limits<int>::max());
+  dist[s] = 0;
+  visited[s] = true;
+  for(int i = 0; i < adj.size(); i++){
+    for(int u = 0; u < adj.size(); u++){
+      for(int j = 0; j < adj[u].size(); j++){
+        int v = adj[u][j];
+        if(dist[u] != std::numeric_limits<int>::max() && dist[v] > dist[u] + cost[u][j]){
+          if(i == adj.size()-1){
+            return 1;
+          }
+          visited[v] = true;
+          dist[v] = dist[u] + cost[u][j]; 
+        }
+        else{
+          break;
+        }
+      }
+    }
+  }
+  return 0;
+}
+
 int negative_cycle(vector<vector<int> > &adj, vector<vector<int> > &cost) {
   //write your code here
+  
+  vector<bool> visited(adj.size(), false);
+  for(int s = 0; s < adj.size(); s++){
+    if(!visited[s]){
+      if(bellmanFord(adj, cost, visited, s)){
+        return 1;
+      }  
+    }
+  }
   return 0;
 }
 

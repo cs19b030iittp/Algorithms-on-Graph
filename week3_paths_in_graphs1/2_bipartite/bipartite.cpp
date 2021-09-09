@@ -5,9 +5,37 @@
 using std::vector;
 using std::queue;
 
+int bfs(vector<vector<int>> &adj, vector<int> &state, int s){
+  queue<int> q;
+  q.push(s);
+  state[s] = 1;
+  while(!q.empty()){
+    int u = q.front();
+    q.pop();
+    for(int i = 0; i < adj[u].size(); i++){
+      int v = adj[u][i];
+      if(state[v] == state[u]){
+        return 0;
+      }
+      if(state[v] == 0){
+        state[v] = -state[u];
+        q.push(v);
+      }
+    }
+  }
+  return 1;
+}
+
 int bipartite(vector<vector<int> > &adj) {
   //write your code here
-  return -1;
+  vector<int> state(adj.size(), 0);
+  for(int i = 0; i < adj.size(); i++){
+    if(state[i] == 0){
+      if(bfs(adj, state, i) == 0)
+        return 0;
+    }
+  }
+  return 1;
 }
 
 int main() {

@@ -4,14 +4,16 @@
 using std::vector;
 using std::pair;
 
-int explore(vector<vector<int>> &adj, int x, int y, vector<int> &visited){
-  visited[x] = 1;
+int explore(vector<vector<int>> &adj, int x, int y, vector<bool> &visited){
+  visited[x] = true;
   if(x == y){
     return 1;
   }
   for(int i = 0; i < adj[x].size(); i++){
-    if(visited[adj[x][i]] == 0){
-      return explore(adj, adj[x][i], y, visited);
+    if(visited[adj[x][i]] == false){
+      if(explore(adj, adj[x][i], y, visited) == 1){
+        return 1;
+      }
     }
   }
   return 0;
@@ -19,7 +21,7 @@ int explore(vector<vector<int>> &adj, int x, int y, vector<int> &visited){
 
 int reach(vector<vector<int> > &adj, int x, int y) {
   //write your code here
-  vector<int> visited(adj.size(),0); 
+  vector<bool> visited(adj.size(),false); 
   return explore(adj, x, y, visited);
 }
 

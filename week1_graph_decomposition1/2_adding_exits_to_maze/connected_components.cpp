@@ -17,7 +17,7 @@ int number_of_components(vector<vector<int> > &adj) {
   int res = 0;
   //write your code here
   vector<bool> visited(adj.size(), false);
-  for(int i = 0; i < adj.size(); i++){      // checking rows
+  for(int i = 0; i < adj.size(); i++){      // exploring rows
     if(visited[i] == false){
       explore(adj, visited, i);
       res++;
